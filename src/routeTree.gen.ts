@@ -10,33 +10,68 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ReportSearchRouteImport } from './routes/report.search'
+import { Route as ReportResultRouteImport } from './routes/report.result'
+import { Route as ListingsBrowseRouteImport } from './routes/listings.browse'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReportSearchRoute = ReportSearchRouteImport.update({
+  id: '/report/search',
+  path: '/report/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportResultRoute = ReportResultRouteImport.update({
+  id: '/report/result',
+  path: '/report/result',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ListingsBrowseRoute = ListingsBrowseRouteImport.update({
+  id: '/listings/browse',
+  path: '/listings/browse',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/listings/browse': typeof ListingsBrowseRoute
+  '/report/result': typeof ReportResultRoute
+  '/report/search': typeof ReportSearchRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/listings/browse': typeof ListingsBrowseRoute
+  '/report/result': typeof ReportResultRoute
+  '/report/search': typeof ReportSearchRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/listings/browse': typeof ListingsBrowseRoute
+  '/report/result': typeof ReportResultRoute
+  '/report/search': typeof ReportSearchRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/listings/browse' | '/report/result' | '/report/search'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/listings/browse' | '/report/result' | '/report/search'
+  id:
+    | '__root__'
+    | '/'
+    | '/listings/browse'
+    | '/report/result'
+    | '/report/search'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ListingsBrowseRoute: typeof ListingsBrowseRoute
+  ReportResultRoute: typeof ReportResultRoute
+  ReportSearchRoute: typeof ReportSearchRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,12 +83,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/report/search': {
+      id: '/report/search'
+      path: '/report/search'
+      fullPath: '/report/search'
+      preLoaderRoute: typeof ReportSearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/report/result': {
+      id: '/report/result'
+      path: '/report/result'
+      fullPath: '/report/result'
+      preLoaderRoute: typeof ReportResultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/listings/browse': {
+      id: '/listings/browse'
+      path: '/listings/browse'
+      fullPath: '/listings/browse'
+      preLoaderRoute: typeof ListingsBrowseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ListingsBrowseRoute: ListingsBrowseRoute,
+  ReportResultRoute: ReportResultRoute,
+  ReportSearchRoute: ReportSearchRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
