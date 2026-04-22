@@ -44,12 +44,15 @@ function ListingDetail() {
   const [note, setNote] = useState("");
   const [visitDate, setVisitDate] = useState("");
 
+  const loc = listing
+    ? LOCALITIES.find((l) => l.id === listing.localityId) ?? LOCALITIES[0]
+    : LOCALITIES[0];
+  const report = useMemo(() => generateReport(loc), [loc.id]);
+
   if (!listing) {
     return <PageShell><div className="px-6 py-20 text-center">Not found.</div></PageShell>;
   }
 
-  const loc = LOCALITIES.find((l) => l.id === listing.localityId)!;
-  const report = useMemo(() => generateReport(loc), [loc.id]);
   const isBlocked = blocked.includes(listing.broker.id);
   const rentHistory = Array.from({ length: 6 }, (_, i) => ({
     m: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"][i],

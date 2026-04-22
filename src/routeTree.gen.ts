@@ -9,11 +9,46 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ReportSearchRouteImport } from './routes/report.search'
+import { Route as ReportSavedRouteImport } from './routes/report.saved'
 import { Route as ReportResultRouteImport } from './routes/report.result'
+import { Route as ReportCompareRouteImport } from './routes/report.compare'
 import { Route as ListingsBrowseRouteImport } from './routes/listings.browse'
+import { Route as ListingsIdRouteImport } from './routes/listings.$id'
+import { Route as BrokerDashboardRouteImport } from './routes/broker.dashboard'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -24,9 +59,19 @@ const ReportSearchRoute = ReportSearchRouteImport.update({
   path: '/report/search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReportSavedRoute = ReportSavedRouteImport.update({
+  id: '/report/saved',
+  path: '/report/saved',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReportResultRoute = ReportResultRouteImport.update({
   id: '/report/result',
   path: '/report/result',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportCompareRoute = ReportCompareRouteImport.update({
+  id: '/report/compare',
+  path: '/report/compare',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ListingsBrowseRoute = ListingsBrowseRouteImport.update({
@@ -34,48 +79,176 @@ const ListingsBrowseRoute = ListingsBrowseRouteImport.update({
   path: '/listings/browse',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ListingsIdRoute = ListingsIdRouteImport.update({
+  id: '/listings/$id',
+  path: '/listings/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrokerDashboardRoute = BrokerDashboardRouteImport.update({
+  id: '/broker/dashboard',
+  path: '/broker/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/profile': typeof ProfileRoute
+  '/signup': typeof SignupRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/broker/dashboard': typeof BrokerDashboardRoute
+  '/listings/$id': typeof ListingsIdRoute
   '/listings/browse': typeof ListingsBrowseRoute
+  '/report/compare': typeof ReportCompareRoute
   '/report/result': typeof ReportResultRoute
+  '/report/saved': typeof ReportSavedRoute
   '/report/search': typeof ReportSearchRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/profile': typeof ProfileRoute
+  '/signup': typeof SignupRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/broker/dashboard': typeof BrokerDashboardRoute
+  '/listings/$id': typeof ListingsIdRoute
   '/listings/browse': typeof ListingsBrowseRoute
+  '/report/compare': typeof ReportCompareRoute
   '/report/result': typeof ReportResultRoute
+  '/report/saved': typeof ReportSavedRoute
   '/report/search': typeof ReportSearchRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/profile': typeof ProfileRoute
+  '/signup': typeof SignupRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/broker/dashboard': typeof BrokerDashboardRoute
+  '/listings/$id': typeof ListingsIdRoute
   '/listings/browse': typeof ListingsBrowseRoute
+  '/report/compare': typeof ReportCompareRoute
   '/report/result': typeof ReportResultRoute
+  '/report/saved': typeof ReportSavedRoute
   '/report/search': typeof ReportSearchRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/listings/browse' | '/report/result' | '/report/search'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/forgot-password'
+    | '/login'
+    | '/profile'
+    | '/signup'
+    | '/admin/dashboard'
+    | '/broker/dashboard'
+    | '/listings/$id'
+    | '/listings/browse'
+    | '/report/compare'
+    | '/report/result'
+    | '/report/saved'
+    | '/report/search'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/listings/browse' | '/report/result' | '/report/search'
+  to:
+    | '/'
+    | '/about'
+    | '/forgot-password'
+    | '/login'
+    | '/profile'
+    | '/signup'
+    | '/admin/dashboard'
+    | '/broker/dashboard'
+    | '/listings/$id'
+    | '/listings/browse'
+    | '/report/compare'
+    | '/report/result'
+    | '/report/saved'
+    | '/report/search'
   id:
     | '__root__'
     | '/'
+    | '/about'
+    | '/forgot-password'
+    | '/login'
+    | '/profile'
+    | '/signup'
+    | '/admin/dashboard'
+    | '/broker/dashboard'
+    | '/listings/$id'
     | '/listings/browse'
+    | '/report/compare'
     | '/report/result'
+    | '/report/saved'
     | '/report/search'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
+  ProfileRoute: typeof ProfileRoute
+  SignupRoute: typeof SignupRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  BrokerDashboardRoute: typeof BrokerDashboardRoute
+  ListingsIdRoute: typeof ListingsIdRoute
   ListingsBrowseRoute: typeof ListingsBrowseRoute
+  ReportCompareRoute: typeof ReportCompareRoute
   ReportResultRoute: typeof ReportResultRoute
+  ReportSavedRoute: typeof ReportSavedRoute
   ReportSearchRoute: typeof ReportSearchRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -90,11 +263,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReportSearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/report/saved': {
+      id: '/report/saved'
+      path: '/report/saved'
+      fullPath: '/report/saved'
+      preLoaderRoute: typeof ReportSavedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/report/result': {
       id: '/report/result'
       path: '/report/result'
       fullPath: '/report/result'
       preLoaderRoute: typeof ReportResultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/report/compare': {
+      id: '/report/compare'
+      path: '/report/compare'
+      fullPath: '/report/compare'
+      preLoaderRoute: typeof ReportCompareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/listings/browse': {
@@ -104,13 +291,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ListingsBrowseRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/listings/$id': {
+      id: '/listings/$id'
+      path: '/listings/$id'
+      fullPath: '/listings/$id'
+      preLoaderRoute: typeof ListingsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/broker/dashboard': {
+      id: '/broker/dashboard'
+      path: '/broker/dashboard'
+      fullPath: '/broker/dashboard'
+      preLoaderRoute: typeof BrokerDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
+  ProfileRoute: ProfileRoute,
+  SignupRoute: SignupRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  BrokerDashboardRoute: BrokerDashboardRoute,
+  ListingsIdRoute: ListingsIdRoute,
   ListingsBrowseRoute: ListingsBrowseRoute,
+  ReportCompareRoute: ReportCompareRoute,
   ReportResultRoute: ReportResultRoute,
+  ReportSavedRoute: ReportSavedRoute,
   ReportSearchRoute: ReportSearchRoute,
 }
 export const routeTree = rootRouteImport
