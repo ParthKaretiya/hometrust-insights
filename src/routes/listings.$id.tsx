@@ -8,10 +8,19 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import {
-  Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { LISTINGS, generateReport, LOCALITIES, verificationProgress } from "@/lib/mock-data";
 import { useApp } from "@/lib/store";
@@ -19,7 +28,11 @@ import { useMemo, useState } from "react";
 import { ArrowLeft, Ban, CalendarClock, Flag, MessageSquare, ShieldCheck, Star } from "lucide-react";
 import { VerificationBadge } from "@/components/verification-badge";
 import {
-  Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious,
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid } from "recharts";
 import { QRCodeSVG } from "qrcode.react";
@@ -29,7 +42,9 @@ export const Route = createFileRoute("/listings/$id")({
   head: () => ({ meta: [{ title: "Listing — HomeTrust" }] }),
   component: ListingDetail,
   notFoundComponent: () => (
-    <PageShell><div className="px-6 py-20 text-center">Listing not found</div></PageShell>
+    <PageShell>
+      <div className="px-6 py-20 text-center">Listing not found</div>
+    </PageShell>
   ),
 });
 
@@ -50,7 +65,11 @@ function ListingDetail() {
   const report = useMemo(() => generateReport(loc), [loc.id]);
 
   if (!listing) {
-    return <PageShell><div className="px-6 py-20 text-center">Not found.</div></PageShell>;
+    return (
+      <PageShell>
+        <div className="px-6 py-20 text-center">Not found.</div>
+      </PageShell>
+    );
   }
 
   const isBlocked = blocked.includes(listing.broker.id);
@@ -59,12 +78,22 @@ function ListingDetail() {
     rent: listing.price + (i * 600 - 1500),
   }));
 
-  const images = [listing.image, ...LISTINGS.slice(0, 4).filter((x) => x.id !== listing.id).map((x) => x.image)];
+  const images = [
+    listing.image,
+    ...LISTINGS.slice(0, 4)
+      .filter((x) => x.id !== listing.id)
+      .map((x) => x.image),
+  ];
 
   return (
     <PageShell>
       <div className="mx-auto max-w-7xl px-4 py-8 md:px-6">
-        <Button variant="ghost" size="sm" onClick={() => navigate({ to: "/listings/browse" })} className="mb-4 gap-1.5 -ml-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate({ to: "/listings/browse" })}
+          className="mb-4 gap-1.5 -ml-2"
+        >
           <ArrowLeft className="h-4 w-4" /> Back to listings
         </Button>
 
@@ -91,7 +120,10 @@ function ListingDetail() {
                   <p className="mt-1 text-sm text-muted-foreground">{listing.address}</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-semibold">₹{listing.price.toLocaleString()}<span className="text-xs font-normal text-muted-foreground">/mo</span></div>
+                  <div className="text-2xl font-semibold">
+                    ₹{listing.price.toLocaleString()}
+                    <span className="text-xs font-normal text-muted-foreground">/mo</span>
+                  </div>
                   <VerificationBadge level={listing.verification} className="mt-1" />
                 </div>
               </div>
@@ -99,7 +131,9 @@ function ListingDetail() {
               <div className="mt-6">
                 <div className="mb-2 flex items-center justify-between text-xs">
                   <span className="font-medium">Verification progress</span>
-                  <span className="text-muted-foreground">{listing.verification} · {listing.trustScore}/100 trust</span>
+                  <span className="text-muted-foreground">
+                    {listing.verification} · {listing.trustScore}/100 trust
+                  </span>
                 </div>
                 <Progress value={verificationProgress(listing.verification)} />
               </div>
@@ -150,10 +184,16 @@ function ListingDetail() {
               </div>
               <div className="mt-4 flex flex-wrap gap-1.5">
                 {["Cafés nearby", "Pet-friendly", "Quiet", "Near metro", "Green"].map((t) => (
-                  <Badge key={t} variant="outline">{t}</Badge>
+                  <Badge key={t} variant="outline">
+                    {t}
+                  </Badge>
                 ))}
               </div>
-              <Link to="/report/result" search={{ location: loc.id }} className="mt-4 inline-block text-sm text-primary hover:underline">
+              <Link
+                to="/report/result"
+                search={{ location: loc.id }}
+                className="mt-4 inline-block text-sm text-primary hover:underline"
+              >
                 View full neighborhood report →
               </Link>
             </Card>
@@ -163,12 +203,19 @@ function ListingDetail() {
             <Card className="p-5">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-                  {listing.broker.name.split(" ").map((s) => s[0]).join("").slice(0, 2)}
+                  {listing.broker.name
+                    .split(" ")
+                    .map((s) => s[0])
+                    .join("")
+                    .slice(0, 2)}
                 </div>
                 <div>
                   <div className="font-medium">{listing.broker.name}</div>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1"><Star className="h-3 w-3 fill-warning text-warning" />{listing.broker.rating}</span>
+                    <span className="flex items-center gap-1">
+                      <Star className="h-3 w-3 fill-warning text-warning" />
+                      {listing.broker.rating}
+                    </span>
                     <span>· {listing.broker.years}y</span>
                     <span>· {listing.broker.responseRate}% reply</span>
                   </div>
@@ -178,7 +225,14 @@ function ListingDetail() {
                 <Button className="gap-2" onClick={() => toast.success("Message sent (mock)")}>
                   <MessageSquare className="h-4 w-4" /> Contact broker
                 </Button>
-                <Button variant="outline" className="gap-2" onClick={() => { toggleBlock(listing.broker.id); toast.success(isBlocked ? "Unblocked" : "Broker blocked"); }}>
+                <Button
+                  variant="outline"
+                  className="gap-2"
+                  onClick={() => {
+                    toggleBlock(listing.broker.id);
+                    toast.success(isBlocked ? "Unblocked" : "Broker blocked");
+                  }}
+                >
                   <Ban className="h-4 w-4" /> {isBlocked ? "Unblock" : "Block broker"}
                 </Button>
               </div>
@@ -187,13 +241,21 @@ function ListingDetail() {
             <Card className="p-5">
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="outline" className="w-full gap-2"><CalendarClock className="h-4 w-4" /> Request visit</Button>
+                  <Button variant="outline" className="w-full gap-2">
+                    <CalendarClock className="h-4 w-4" /> Request visit
+                  </Button>
                 </DialogTrigger>
                 <DialogContent>
-                  <DialogHeader><DialogTitle>Request a visit</DialogTitle></DialogHeader>
+                  <DialogHeader>
+                    <DialogTitle>Request a visit</DialogTitle>
+                  </DialogHeader>
                   <div className="space-y-3">
                     <Label>Date & time</Label>
-                    <Input type="datetime-local" value={visitDate} onChange={(e) => setVisitDate(e.target.value)} />
+                    <Input
+                      type="datetime-local"
+                      value={visitDate}
+                      onChange={(e) => setVisitDate(e.target.value)}
+                    />
                     {visitDate && (
                       <div className="rounded-lg border p-4 text-center">
                         <div className="mb-2 text-xs text-muted-foreground">Show this QR at the property</div>
@@ -216,12 +278,16 @@ function ListingDetail() {
                   </Button>
                 </DialogTrigger>
                 <DialogContent>
-                  <DialogHeader><DialogTitle>Report this listing</DialogTitle></DialogHeader>
+                  <DialogHeader>
+                    <DialogTitle>Report this listing</DialogTitle>
+                  </DialogHeader>
                   <div className="space-y-3">
                     <div>
                       <Label>Reason</Label>
                       <Select value={reason} onValueChange={setReason}>
-                        <SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger>
+                        <SelectTrigger className="mt-1.5">
+                          <SelectValue />
+                        </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="Suspicious price">Suspicious price</SelectItem>
                           <SelectItem value="Fake photos">Fake photos</SelectItem>
@@ -230,17 +296,29 @@ function ListingDetail() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div><Label>Notes</Label><Textarea value={note} onChange={(e) => setNote(e.target.value)} className="mt-1.5" /></div>
+                    <div>
+                      <Label>Notes</Label>
+                      <Textarea value={note} onChange={(e) => setNote(e.target.value)} className="mt-1.5" />
+                    </div>
                   </div>
                   <DialogFooter>
-                    <Button onClick={() => { reportListing(listing.id, reason, note); toast.success("Sent to moderators"); }}>Submit</Button>
+                    <Button
+                      onClick={() => {
+                        reportListing(listing.id, reason, note);
+                        toast.success("Sent to moderators");
+                      }}
+                    >
+                      Submit
+                    </Button>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
             </Card>
 
             <Card className="p-5">
-              <div className="flex items-center gap-2 text-sm font-medium"><ShieldCheck className="h-4 w-4 text-success" /> Why we trust this listing</div>
+              <div className="flex items-center gap-2 text-sm font-medium">
+                <ShieldCheck className="h-4 w-4 text-success" /> Why we trust this listing
+              </div>
               <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
                 <li>• KYC-verified broker</li>
                 <li>• Live photos uploaded</li>

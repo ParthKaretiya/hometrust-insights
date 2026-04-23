@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { PageShell } from "@/components/layout";
 import { MapView } from "@/components/map-view";
-import { LOCALITIES, generateReport, type Locality } from "@/lib/mock-data";
+import { LOCALITIES, generateReport } from "@/lib/mock-data";
 import { useApp } from "@/lib/store";
 import { Heart, Locate, MapPin, Search, Sparkles } from "lucide-react";
 import { toast } from "sonner";
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/report/search")({
 
 function SearchPage() {
   const [q, setQ] = useState("");
-  const [selected, setSelected] = useState<Locality>(LOCALITIES[0]);
+  const [selected, setSelected] = useState(LOCALITIES[0]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const user = useApp((s) => s.user);
@@ -138,7 +138,9 @@ function SearchPage() {
             <div className="flex items-center justify-between rounded-lg border bg-card px-4 py-3 text-sm">
               <div>
                 <div className="font-medium">{selected.name}</div>
-                <div className="text-xs text-muted-foreground">{selected.city} · {selected.lat.toFixed(3)}, {selected.lng.toFixed(3)}</div>
+                <div className="text-xs text-muted-foreground">
+                  {selected.city} · {selected.lat.toFixed(3)}, {selected.lng.toFixed(3)}
+                </div>
               </div>
               <div className="text-xs text-muted-foreground">1km radius shown</div>
             </div>

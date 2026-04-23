@@ -3,15 +3,21 @@ import { PageShell } from "@/components/layout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Tabs, TabsContent, TabsList, TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LISTINGS } from "@/lib/mock-data";
 import { useApp } from "@/lib/store";
 import { Check, X } from "lucide-react";
 import {
-  Bar, BarChart, CartesianGrid, Cell, Pie, PieChart,
-  ResponsiveContainer, Tooltip, XAxis, YAxis,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts";
 import { toast } from "sonner";
 import { VerificationBadge } from "@/components/verification-badge";
@@ -25,8 +31,12 @@ function AdminDash() {
   const reported = useApp((s) => s.reportedListings);
 
   const fakeByCity = [
-    { city: "BLR", pct: 4 }, { city: "MUM", pct: 7 }, { city: "DEL", pct: 9 },
-    { city: "HYD", pct: 3 }, { city: "CHN", pct: 5 }, { city: "KOL", pct: 6 },
+    { city: "BLR", pct: 4 },
+    { city: "MUM", pct: 7 },
+    { city: "DEL", pct: 9 },
+    { city: "HYD", pct: 3 },
+    { city: "CHN", pct: 5 },
+    { city: "KOL", pct: 6 },
   ];
   const offenders = [
     { name: "Quickfix Realty", n: 12 },
@@ -77,13 +87,32 @@ function AdminDash() {
                   <tbody>
                     {LISTINGS.slice(0, 4).map((l, i) => (
                       <tr key={l.id} className="border-b last:border-0">
-                        <td className="px-4 py-3"><div className="font-medium">{l.title}</div><div className="text-xs text-muted-foreground">{l.address}</div></td>
-                        <td className="px-4 py-3">{["Fake photos", "Suspicious price", "Already rented", "Broker scam"][i]}</td>
-                        <td className="px-4 py-3"><Badge variant="outline" className="bg-danger/10 text-danger border-danger/30">{60 + i * 8}</Badge></td>
-                        <td className="px-4 py-3"><div className="flex justify-end gap-2">
-                          <Button size="sm" variant="outline" onClick={() => toast.success("Report dismissed")}><Check className="h-3.5 w-3.5" /> Approve</Button>
-                          <Button size="sm" variant="destructive" onClick={() => toast.success("Listing removed · broker striked")}><X className="h-3.5 w-3.5" /> Remove</Button>
-                        </div></td>
+                        <td className="px-4 py-3">
+                          <div className="font-medium">{l.title}</div>
+                          <div className="text-xs text-muted-foreground">{l.address}</div>
+                        </td>
+                        <td className="px-4 py-3">
+                          {["Fake photos", "Suspicious price", "Already rented", "Broker scam"][i]}
+                        </td>
+                        <td className="px-4 py-3">
+                          <Badge variant="outline" className="bg-danger/10 text-danger border-danger/30">
+                            {60 + i * 8}
+                          </Badge>
+                        </td>
+                        <td className="px-4 py-3">
+                          <div className="flex justify-end gap-2">
+                            <Button size="sm" variant="outline" onClick={() => toast.success("Report dismissed")}>
+                              <Check className="h-3.5 w-3.5" /> Approve
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => toast.success("Listing removed · broker striked")}
+                            >
+                              <X className="h-3.5 w-3.5" /> Remove
+                            </Button>
+                          </div>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -102,10 +131,16 @@ function AdminDash() {
                       <div className="font-medium">{l.broker.name}</div>
                       <VerificationBadge level={l.verification} />
                     </div>
-                    <div className="mt-1 text-xs text-muted-foreground">Requesting Gold · {l.address}</div>
+                    <div className="mt-1 text-xs text-muted-foreground">
+                      Requesting Gold · {l.address}
+                    </div>
                     <div className="mt-3 flex gap-2">
-                      <Button size="sm" className="flex-1" onClick={() => toast.success("Approved")}>Approve</Button>
-                      <Button size="sm" variant="outline" onClick={() => toast.success("Rejected")}>Reject</Button>
+                      <Button size="sm" className="flex-1" onClick={() => toast.success("Approved")}>
+                        Approve
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={() => toast.success("Rejected")}>
+                        Reject
+                      </Button>
                     </div>
                   </div>
                 </Card>
@@ -138,10 +173,12 @@ function AdminDash() {
                             <span className="text-xs tabular-nums">{70 + i * 4}%</span>
                           </div>
                         </td>
-                        <td className="px-4 py-3"><div className="flex justify-end gap-2">
-                          <Button size="sm" variant="outline">Dismiss</Button>
-                          <Button size="sm" variant="destructive">Remove</Button>
-                        </div></td>
+                        <td className="px-4 py-3">
+                          <div className="flex justify-end gap-2">
+                            <Button size="sm" variant="outline">Dismiss</Button>
+                            <Button size="sm" variant="destructive">Remove</Button>
+                          </div>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -169,7 +206,9 @@ function AdminDash() {
             <ResponsiveContainer width="100%" height={240}>
               <PieChart>
                 <Pie data={offenders} dataKey="n" nameKey="name" innerRadius={50} outerRadius={90} paddingAngle={2}>
-                  {offenders.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
+                  {offenders.map((_, i) => (
+                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                  ))}
                 </Pie>
                 <Tooltip />
               </PieChart>

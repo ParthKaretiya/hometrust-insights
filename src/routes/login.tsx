@@ -19,7 +19,7 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
 
-  const submit = (e: React.FormEvent) => {
+  const submit = (e) => {
     e.preventDefault();
     if (!email || !pw) return toast.error("Enter email & password");
     login(email, "buyer");
@@ -34,11 +34,37 @@ function LoginPage() {
           <h1 className="text-2xl font-semibold tracking-tight">Sign in</h1>
           <p className="mt-1 text-sm text-muted-foreground">Demo: any email & password works.</p>
           <form onSubmit={submit} className="mt-6 space-y-4">
-            <div><Label htmlFor="e">Email</Label><Input id="e" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" className="mt-1.5" /></div>
-            <div><Label htmlFor="p">Password</Label><Input id="p" type="password" value={pw} onChange={(e) => setPw(e.target.value)} className="mt-1.5" /></div>
+            <div>
+              <Label htmlFor="e">Email</Label>
+              <Input
+                id="e"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className="mt-1.5"
+              />
+            </div>
+            <div>
+              <Label htmlFor="p">Password</Label>
+              <Input
+                id="p"
+                type="password"
+                value={pw}
+                onChange={(e) => setPw(e.target.value)}
+                className="mt-1.5"
+              />
+            </div>
             <Button type="submit" className="w-full">Sign in</Button>
           </form>
-          <Button variant="outline" className="mt-3 w-full" onClick={() => { login("google.user@gmail.com", "buyer"); navigate({ to: "/report/search" }); }}>
+          <Button
+            variant="outline"
+            className="mt-3 w-full"
+            onClick={() => {
+              login("google.user@gmail.com", "buyer");
+              navigate({ to: "/report/search" });
+            }}
+          >
             Continue with Google
           </Button>
           <div className="mt-4 flex justify-between text-sm">

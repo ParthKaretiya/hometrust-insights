@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useApp, type Role } from "@/lib/store";
+import { useApp } from "@/lib/store";
 import { useState } from "react";
 import {
   Sheet,
@@ -23,9 +23,9 @@ import { toast } from "sonner";
 const NAV = [
   { to: "/report/search", label: "Reports" },
   { to: "/listings/browse", label: "Rentals" },
-  { to: "/report/compare", label: "Compare" },
+  { to: "/report/compare", label: "Compare", search: { loc1: "koramangala", loc2: "indiranagar", loc3: undefined } },
   { to: "/about", label: "About" },
-] as const;
+];
 
 export function SiteHeader() {
   const user = useApp((s) => s.user);
@@ -34,7 +34,7 @@ export function SiteHeader() {
   const navigate = useNavigate();
   const [notifOpen, setNotifOpen] = useState(false);
 
-  const switchRole = (role: Role) => {
+  const switchRole = (role) => {
     setRole(role);
     toast.success(`Switched to ${role}`);
     navigate({
@@ -62,6 +62,7 @@ export function SiteHeader() {
             <Link
               key={n.to}
               to={n.to}
+              search={n.search}
               className="rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
               activeProps={{ className: "bg-muted text-foreground font-medium" }}
             >
@@ -136,7 +137,12 @@ export function SiteHeader() {
                 <DropdownMenuItem onClick={() => switchRole("broker")}>Broker</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => switchRole("admin")}>Admin</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => { logout(); navigate({ to: "/" }); }}>
+                <DropdownMenuItem
+                  onClick={() => {
+                    logout();
+                    navigate({ to: "/" });
+                  }}
+                >
                   Sign out
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -159,10 +165,17 @@ export function SiteHeader() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-              <SheetHeader><SheetTitle>HomeTrust</SheetTitle></SheetHeader>
+              <SheetHeader>
+                <SheetTitle>HomeTrust</SheetTitle>
+              </SheetHeader>
               <nav className="mt-6 flex flex-col gap-1">
                 {NAV.map((n) => (
-                  <Link key={n.to} to={n.to} className="rounded-md px-3 py-2 text-sm hover:bg-muted">
+                  <Link
+                    key={n.to}
+                    to={n.to}
+                    search={n.search}
+                    className="rounded-md px-3 py-2 text-sm hover:bg-muted"
+                  >
                     {n.label}
                   </Link>
                 ))}
@@ -193,15 +206,29 @@ export function SiteFooter() {
         <div>
           <div className="text-sm font-semibold">Product</div>
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/report/search" className="hover:text-foreground">Reports</Link></li>
-            <li><Link to="/listings/browse" className="hover:text-foreground">Rentals</Link></li>
-            <li><Link to="/report/compare" className="hover:text-foreground">Compare</Link></li>
+            <li>
+              <Link to="/report/search" className="hover:text-foreground">Reports</Link>
+            </li>
+            <li>
+              <Link to="/listings/browse" className="hover:text-foreground">Rentals</Link>
+            </li>
+            <li>
+              <Link
+                to="/report/compare"
+                search={{ loc1: "koramangala", loc2: "indiranagar", loc3: undefined }}
+                className="hover:text-foreground"
+              >
+                Compare
+              </Link>
+            </li>
           </ul>
         </div>
         <div>
           <div className="text-sm font-semibold">Company</div>
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/about" className="hover:text-foreground">About</Link></li>
+            <li>
+              <Link to="/about" className="hover:text-foreground">About</Link>
+            </li>
             <li><a className="hover:text-foreground" href="#">Careers</a></li>
             <li><a className="hover:text-foreground" href="#">Press</a></li>
           </ul>
@@ -221,7 +248,7 @@ export function SiteFooter() {
   );
 }
 
-export function PageShell({ children }: { children: React.ReactNode }) {
+export function PageShell({ children }) {
   return (
     <div className="flex min-h-screen flex-col">
       <SiteHeader />

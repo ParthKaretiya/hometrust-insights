@@ -1,43 +1,14 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { LocalityReport } from "./mock-data";
 
-export type Role = "buyer" | "broker" | "admin";
-
-export type User = {
-  id: string;
-  name: string;
-  email: string;
-  role: Role;
-  avatar?: string;
-};
-
-type AppState = {
-  user: User | null;
-  login: (email: string, role?: Role) => void;
-  logout: () => void;
-  setRole: (role: Role) => void;
-
-  savedReports: LocalityReport[];
-  saveReport: (r: LocalityReport) => void;
-  deleteReport: (id: string) => void;
-
-  favoriteLocalities: string[];
-  toggleFavorite: (id: string) => void;
-
-  blockedBrokers: string[];
-  toggleBlockBroker: (id: string) => void;
-
-  reportedListings: { id: string; reason: string; note: string; at: string }[];
-  reportListing: (id: string, reason: string, note: string) => void;
-};
-
-export const useApp = create<AppState>()(
+export const useApp = create(
   persist(
     (set, get) => ({
       user: null,
       login: (email, role = "buyer") => {
-        const name = email.split("@")[0].replace(/\W/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) || "Demo User";
+        const name =
+          email.split("@")[0].replace(/\W/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) ||
+          "Demo User";
         set({ user: { id: "u1", name, email, role } });
       },
       logout: () => set({ user: null }),

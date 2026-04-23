@@ -5,9 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import {
-  Tabs, TabsContent, TabsList, TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useApp } from "@/lib/store";
 import { LOCALITIES } from "@/lib/mock-data";
 import { Download, Sparkles } from "lucide-react";
@@ -25,8 +23,13 @@ function Profile() {
   const reported = useApp((s) => s.reportedListings);
 
   const exportData = () => {
-    const blob = new Blob([JSON.stringify({ user, fav, saved, reported }, null, 2)], { type: "application/json" });
-    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "hometrust-data.json"; a.click();
+    const blob = new Blob([JSON.stringify({ user, fav, saved, reported }, null, 2)], {
+      type: "application/json",
+    });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "hometrust-data.json";
+    a.click();
     toast.success("Data exported");
   };
 
@@ -35,7 +38,9 @@ function Profile() {
       <PageShell>
         <div className="mx-auto max-w-md px-4 py-20 text-center">
           <p className="mb-4">Sign in to view your profile.</p>
-          <Button asChild><Link to="/login">Sign in</Link></Button>
+          <Button asChild>
+            <Link to="/login">Sign in</Link>
+          </Button>
         </div>
       </PageShell>
     );
@@ -58,28 +63,50 @@ function Profile() {
           <TabsContent value="info">
             <Card className="p-6">
               <div className="grid gap-4 sm:grid-cols-2">
-                <div><Label>Name</Label><Input defaultValue={user.name} className="mt-1.5" /></div>
-                <div><Label>Email</Label><Input defaultValue={user.email} className="mt-1.5" /></div>
-                <div><Label>Phone</Label><Input placeholder="+91 9000000000" className="mt-1.5" /></div>
-                <div><Label>City</Label><Input placeholder="Bengaluru" className="mt-1.5" /></div>
+                <div>
+                  <Label>Name</Label>
+                  <Input defaultValue={user.name} className="mt-1.5" />
+                </div>
+                <div>
+                  <Label>Email</Label>
+                  <Input defaultValue={user.email} className="mt-1.5" />
+                </div>
+                <div>
+                  <Label>Phone</Label>
+                  <Input placeholder="+91 9000000000" className="mt-1.5" />
+                </div>
+                <div>
+                  <Label>City</Label>
+                  <Input placeholder="Bengaluru" className="mt-1.5" />
+                </div>
               </div>
-              <Button className="mt-5" onClick={() => toast.success("Profile updated")}>Save changes</Button>
+              <Button className="mt-5" onClick={() => toast.success("Profile updated")}>
+                Save changes
+              </Button>
             </Card>
           </TabsContent>
 
           <TabsContent value="fav">
             <Card className="p-6">
               {fav.length === 0 ? (
-                <div className="py-8 text-center text-sm text-muted-foreground">No favorites yet. Heart a location from the search page.</div>
+                <div className="py-8 text-center text-sm text-muted-foreground">
+                  No favorites yet. Heart a location from the search page.
+                </div>
               ) : (
                 <ul className="divide-y">
                   {fav.map((id) => {
-                    const l = LOCALITIES.find((x) => x.id === id)!;
+                    const l = LOCALITIES.find((x) => x.id === id);
+                    if (!l) return null;
                     return (
                       <li key={id} className="flex items-center justify-between py-3">
-                        <div><div className="font-medium">{l.name}</div><div className="text-xs text-muted-foreground">{l.city}</div></div>
+                        <div>
+                          <div className="font-medium">{l.name}</div>
+                          <div className="text-xs text-muted-foreground">{l.city}</div>
+                        </div>
                         <Button asChild size="sm" variant="outline" className="gap-1.5">
-                          <Link to="/report/result" search={{ location: id }}><Sparkles className="h-3.5 w-3.5" /> Generate report</Link>
+                          <Link to="/report/result" search={{ location: id }}>
+                            <Sparkles className="h-3.5 w-3.5" /> Generate report
+                          </Link>
                         </Button>
                       </li>
                     );
@@ -91,19 +118,25 @@ function Profile() {
 
           <TabsContent value="notif">
             <Card className="p-6 space-y-4">
-              {["Email digests", "New listings in saved areas", "Broker replies", "Verification updates"].map((n) => (
-                <div key={n} className="flex items-center justify-between">
-                  <Label>{n}</Label>
-                  <Switch defaultChecked />
-                </div>
-              ))}
+              {["Email digests", "New listings in saved areas", "Broker replies", "Verification updates"].map(
+                (n) => (
+                  <div key={n} className="flex items-center justify-between">
+                    <Label>{n}</Label>
+                    <Switch defaultChecked />
+                  </div>
+                ),
+              )}
             </Card>
           </TabsContent>
 
           <TabsContent value="data">
             <Card className="p-6">
-              <p className="text-sm text-muted-foreground">Download a JSON copy of all your data on HomeTrust.</p>
-              <Button onClick={exportData} className="mt-4 gap-2"><Download className="h-4 w-4" /> Export JSON</Button>
+              <p className="text-sm text-muted-foreground">
+                Download a JSON copy of all your data on HomeTrust.
+              </p>
+              <Button onClick={exportData} className="mt-4 gap-2">
+                <Download className="h-4 w-4" /> Export JSON
+              </Button>
             </Card>
           </TabsContent>
         </Tabs>
