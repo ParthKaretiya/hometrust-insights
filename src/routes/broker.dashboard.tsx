@@ -4,7 +4,12 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,8 +19,15 @@ import { VerificationBadge } from "@/components/verification-badge";
 import { QRCodeSVG } from "qrcode.react";
 import { useState } from "react";
 import {
-  Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer,
-  Tooltip, XAxis, YAxis,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -46,7 +58,7 @@ function BrokerDash() {
   ];
 
   const [step, setStep] = useState(1);
-  const [qrFor, setQrFor] = useState<string | null>(null);
+  const [qrFor, setQrFor] = useState(null);
 
   return (
     <PageShell>
@@ -58,27 +70,74 @@ function BrokerDash() {
           </div>
           <Dialog>
             <DialogTrigger asChild>
-              <Button className="gap-2"><Plus className="h-4 w-4" /> Add new listing</Button>
+              <Button className="gap-2">
+                <Plus className="h-4 w-4" /> Add new listing
+              </Button>
             </DialogTrigger>
             <DialogContent className="max-w-lg">
-              <DialogHeader><DialogTitle>New listing — Step {step} of 6</DialogTitle></DialogHeader>
+              <DialogHeader>
+                <DialogTitle>New listing — Step {step} of 6</DialogTitle>
+              </DialogHeader>
               <div className="space-y-3 text-sm">
-                {step === 1 && (<><Label>Address</Label><Input placeholder="123, Indiranagar, Bengaluru" /></>)}
-                {step === 2 && (<><Label>BHK / Rent / Area</Label><div className="grid grid-cols-3 gap-2"><Input placeholder="2" /><Input placeholder="₹35000" /><Input placeholder="900 sqft" /></div></>)}
-                {step === 3 && (<><Label>KYC document</Label><Input type="file" /></>)}
-                {step === 4 && (<><Label>Ownership proof</Label><Input type="file" /></>)}
-                {step === 5 && (<><Label>Live photos</Label><Input type="file" multiple /></>)}
-                {step === 6 && (<><Label>Video walkthrough</Label><Input type="file" accept="video/*" /></>)}
+                {step === 1 && (
+                  <>
+                    <Label>Address</Label>
+                    <Input placeholder="123, Indiranagar, Bengaluru" />
+                  </>
+                )}
+                {step === 2 && (
+                  <>
+                    <Label>BHK / Rent / Area</Label>
+                    <div className="grid grid-cols-3 gap-2">
+                      <Input placeholder="2" />
+                      <Input placeholder="₹35000" />
+                      <Input placeholder="900 sqft" />
+                    </div>
+                  </>
+                )}
+                {step === 3 && (
+                  <>
+                    <Label>KYC document</Label>
+                    <Input type="file" />
+                  </>
+                )}
+                {step === 4 && (
+                  <>
+                    <Label>Ownership proof</Label>
+                    <Input type="file" />
+                  </>
+                )}
+                {step === 5 && (
+                  <>
+                    <Label>Live photos</Label>
+                    <Input type="file" multiple />
+                  </>
+                )}
+                {step === 6 && (
+                  <>
+                    <Label>Video walkthrough</Label>
+                    <Input type="file" accept="video/*" />
+                  </>
+                )}
                 <div className="flex h-1 overflow-hidden rounded-full bg-muted">
                   <div className="bg-primary transition-all" style={{ width: `${(step / 6) * 100}%` }} />
                 </div>
               </div>
               <DialogFooter className="gap-2 sm:justify-between">
-                <Button variant="outline" disabled={step === 1} onClick={() => setStep(step - 1)}>Back</Button>
+                <Button variant="outline" disabled={step === 1} onClick={() => setStep(step - 1)}>
+                  Back
+                </Button>
                 {step < 6 ? (
                   <Button onClick={() => setStep(step + 1)}>Next</Button>
                 ) : (
-                  <Button onClick={() => { toast.success("Listing submitted for verification"); setStep(1); }}>Submit</Button>
+                  <Button
+                    onClick={() => {
+                      toast.success("Listing submitted for verification");
+                      setStep(1);
+                    }}
+                  >
+                    Submit
+                  </Button>
                 )}
               </DialogFooter>
             </DialogContent>
@@ -89,12 +148,16 @@ function BrokerDash() {
           {stats.map((s) => (
             <Card key={s.label} className="p-4">
               <div className="text-xs text-muted-foreground">{s.label}</div>
-              <div className={cn(
-                "mt-1 text-2xl font-semibold tabular-nums",
-                s.tone === "success" && "text-success",
-                s.tone === "warning" && "text-warning",
-                s.tone === "danger" && "text-danger",
-              )}>{s.v}</div>
+              <div
+                className={cn(
+                  "mt-1 text-2xl font-semibold tabular-nums",
+                  s.tone === "success" && "text-success",
+                  s.tone === "warning" && "text-warning",
+                  s.tone === "danger" && "text-danger",
+                )}
+              >
+                {s.v}
+              </div>
             </Card>
           ))}
         </div>
@@ -119,14 +182,24 @@ function BrokerDash() {
                       <div className="font-medium">{l.title}</div>
                       <div className="text-xs text-muted-foreground">{l.address}</div>
                     </td>
-                    <td className="px-4 py-3"><VerificationBadge level={l.verification} /></td>
+                    <td className="px-4 py-3">
+                      <VerificationBadge level={l.verification} />
+                    </td>
                     <td className="px-4 py-3 tabular-nums">{l.trustScore}</td>
-                    <td className="px-4 py-3"><Badge variant="outline">Active</Badge></td>
+                    <td className="px-4 py-3">
+                      <Badge variant="outline">Active</Badge>
+                    </td>
                     <td className="px-4 py-3">
                       <div className="flex justify-end gap-1">
-                        <Button size="icon" variant="ghost" onClick={() => setQrFor(l.id)} aria-label="QR"><QrCode className="h-4 w-4" /></Button>
-                        <Button size="icon" variant="ghost" aria-label="Edit"><Edit className="h-4 w-4" /></Button>
-                        <Button size="icon" variant="ghost" aria-label="Delete" className="text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                        <Button size="icon" variant="ghost" onClick={() => setQrFor(l.id)} aria-label="QR">
+                          <QrCode className="h-4 w-4" />
+                        </Button>
+                        <Button size="icon" variant="ghost" aria-label="Edit">
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button size="icon" variant="ghost" aria-label="Delete" className="text-destructive">
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
                       </div>
                     </td>
                   </tr>
@@ -138,7 +211,9 @@ function BrokerDash() {
 
         <Dialog open={!!qrFor} onOpenChange={(v) => !v && setQrFor(null)}>
           <DialogContent>
-            <DialogHeader><DialogTitle>Property QR</DialogTitle></DialogHeader>
+            <DialogHeader>
+              <DialogTitle>Property QR</DialogTitle>
+            </DialogHeader>
             <div className="flex flex-col items-center gap-3 py-2">
               {qrFor && <QRCodeSVG value={`hometrust:listing:${qrFor}`} size={180} />}
               <div className="text-xs text-muted-foreground">Print and display at the property entrance.</div>

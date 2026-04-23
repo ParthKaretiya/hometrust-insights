@@ -5,17 +5,33 @@ import { PageShell } from "@/components/layout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { LOCALITIES, PARAMS, generateReport, scoreLabel, type ParamKey } from "@/lib/mock-data";
+import { LOCALITIES, PARAMS, generateReport, scoreLabel } from "@/lib/mock-data";
 import { useApp } from "@/lib/store";
 import { useMemo, useState } from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import {
-  Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart,
-  ResponsiveContainer, Tooltip, XAxis, YAxis,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts";
 import {
-  ArrowLeft, BookmarkPlus, ChevronDown, Download, GitCompareArrows, Share2, ThumbsDown, ThumbsUp,
+  ArrowLeft,
+  BookmarkPlus,
+  ChevronDown,
+  Download,
+  GitCompareArrows,
+  Share2,
+  ThumbsDown,
+  ThumbsUp,
 } from "lucide-react";
 import { toast } from "sonner";
 import { MapView } from "@/components/map-view";
@@ -38,7 +54,7 @@ function ResultPage() {
   const locality = LOCALITIES.find((l) => l.id === location) ?? LOCALITIES[0];
   const report = useMemo(() => generateReport(locality), [locality.id]);
   const saveReport = useApp((s) => s.saveReport);
-  const [expanded, setExpanded] = useState<ParamKey | null>(null);
+  const [expanded, setExpanded] = useState(null);
   const tone = scoreLabel(report.overall);
 
   const compareData = PARAMS.map((p) => ({
@@ -47,7 +63,7 @@ function ResultPage() {
     city: report.cityAverage[p.key],
   }));
 
-  const detailsForParam = (key: ParamKey) => {
+  const detailsForParam = (key) => {
     const trend = report.trend[key];
     return (
       <div className="mt-3 rounded-lg border bg-muted/30 p-4">
@@ -83,13 +99,20 @@ function ResultPage() {
     );
   };
 
-  const overallColor = report.overall >= 65 ? "oklch(0.65 0.16 150)" : report.overall >= 45 ? "oklch(0.78 0.14 75)" : "oklch(0.6 0.22 25)";
+  const overallColor =
+    report.overall >= 65
+      ? "oklch(0.65 0.16 150)"
+      : report.overall >= 45
+        ? "oklch(0.78 0.14 75)"
+        : "oklch(0.6 0.22 25)";
 
   return (
     <PageShell>
       <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10">
         <Button variant="ghost" size="sm" asChild className="mb-4 gap-1.5 -ml-2">
-          <Link to="/report/search"><ArrowLeft className="h-4 w-4" /> Back to search</Link>
+          <Link to="/report/search">
+            <ArrowLeft className="h-4 w-4" /> Back to search
+          </Link>
         </Button>
 
         <Card className="overflow-hidden">
@@ -110,26 +133,61 @@ function ResultPage() {
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">{locality.name}</h1>
                 <Badge variant="outline">{locality.city}</Badge>
-                <Badge className={cn(
-                  tone.tone === "success" && "bg-success/15 text-success border-success/30",
-                  tone.tone === "warning" && "bg-warning/15 text-warning border-warning/30",
-                  tone.tone === "danger" && "bg-danger/15 text-danger border-danger/30",
-                )} variant="outline">{tone.label}</Badge>
+                <Badge
+                  className={cn(
+                    tone.tone === "success" && "bg-success/15 text-success border-success/30",
+                    tone.tone === "warning" && "bg-warning/15 text-warning border-warning/30",
+                    tone.tone === "danger" && "bg-danger/15 text-danger border-danger/30",
+                  )}
+                  variant="outline"
+                >
+                  {tone.label}
+                </Badge>
               </div>
               <div className="mt-1 text-sm text-muted-foreground">
                 Report ID {report.reportId} · {new Date(report.generatedAt).toLocaleString()}
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
-                <Button size="sm" className="gap-1.5" onClick={() => { saveReport(report); toast.success("Report saved"); }}>
+                <Button
+                  size="sm"
+                  className="gap-1.5"
+                  onClick={() => {
+                    saveReport(report);
+                    toast.success("Report saved");
+                  }}
+                >
                   <BookmarkPlus className="h-4 w-4" /> Save
                 </Button>
-                <Button size="sm" variant="outline" className="gap-1.5" onClick={() => toast.success("PDF downloaded (mock)")}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="gap-1.5"
+                  onClick={() => toast.success("PDF downloaded (mock)")}
+                >
                   <Download className="h-4 w-4" /> Download PDF
                 </Button>
-                <Button size="sm" variant="outline" className="gap-1.5" onClick={() => navigate({ to: "/report/compare", search: { loc1: locality.id } })}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="gap-1.5"
+                  onClick={() =>
+                    navigate({
+                      to: "/report/compare",
+                      search: { loc1: locality.id, loc2: undefined, loc3: undefined },
+                    })
+                  }
+                >
                   <GitCompareArrows className="h-4 w-4" /> Compare
                 </Button>
-                <Button size="sm" variant="ghost" className="gap-1.5" onClick={() => { navigator.clipboard?.writeText(window.location.href); toast.success("Link copied"); }}>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="gap-1.5"
+                  onClick={() => {
+                    navigator.clipboard?.writeText(window.location.href);
+                    toast.success("Link copied");
+                  }}
+                >
                   <Share2 className="h-4 w-4" /> Share
                 </Button>
               </div>
@@ -183,7 +241,12 @@ function ResultPage() {
                   <ThumbsUp className="h-3.5 w-3.5" /> Pros
                 </div>
                 <ul className="space-y-1.5 text-sm">
-                  {report.pros.map((p) => <li key={p} className="flex gap-2"><span className="text-success">+</span>{p}</li>)}
+                  {report.pros.map((p) => (
+                    <li key={p} className="flex gap-2">
+                      <span className="text-success">+</span>
+                      {p}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div>
@@ -191,7 +254,12 @@ function ResultPage() {
                   <ThumbsDown className="h-3.5 w-3.5" /> Cons
                 </div>
                 <ul className="space-y-1.5 text-sm">
-                  {report.cons.map((p) => <li key={p} className="flex gap-2"><span className="text-danger">−</span>{p}</li>)}
+                  {report.cons.map((p) => (
+                    <li key={p} className="flex gap-2">
+                      <span className="text-danger">−</span>
+                      {p}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -208,7 +276,9 @@ function ResultPage() {
                   <Tooltip />
                   <Legend wrapperStyle={{ fontSize: 12 }} />
                   <Bar dataKey="score" name="This area" radius={[4, 4, 0, 0]}>
-                    {compareData.map((_, i) => <Cell key={i} fill="oklch(0.55 0.16 245)" />)}
+                    {compareData.map((_, i) => (
+                      <Cell key={i} fill="oklch(0.55 0.16 245)" />
+                    ))}
                   </Bar>
                   <Bar dataKey="city" name="City avg" fill="oklch(0.78 0.02 250)" radius={[4, 4, 0, 0]} />
                 </BarChart>
